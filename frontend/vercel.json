@@ -3,7 +3,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://toko-online-api.onrender.com/api/:path*"
+      "destination": "https://binus-toko-online-api.vercel.app/api/:path*"
     },
     {
       "source": "/(.*)",

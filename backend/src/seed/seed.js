@@ -35,9 +35,8 @@ async function seedAdmin() {
   console.log(`Akun admin ${email} siap dipakai untuk login.`);
 }
 
-await connectDB();
-
 try {
+  await connectDB();
   if (!adminOnly) await seedProducts();
   await seedAdmin();
 } catch (err) {

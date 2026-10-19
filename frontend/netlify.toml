@@ -5,10 +5,10 @@
   command = "npm run build"
   publish = "dist"
 
-# Request /api/* diteruskan ke backend di Render. Ganti URL-nya dengan URL service Render kamu.
+# Request /api/* diteruskan ke backend. Ganti URL-nya dengan URL backend kamu.
 [[redirects]]
   from = "/api/*"
-  to = "https://toko-online-api.onrender.com/api/:splat"
+  to = "https://binus-toko-online-api.vercel.app/api/:splat"
   status = 200
   force = true
 
