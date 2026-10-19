@@ -1,0 +1,30 @@
+# Blueprint Render untuk backend. Di dashboard Render: New > Blueprint > pilih repo ini.
+# Nilai bertanda `sync: false` akan ditanyakan Render saat pertama kali deploy.
+services:
+  - type: web
+    name: toko-online-api
+    runtime: node
+    region: singapore
+    plan: free
+    rootDir: backend
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_VERSION
+        value: "22"
+      - key: MONGO_URI
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: ACCESS_TOKEN_EXPIRES_IN
+        value: 15m
+      - key: REFRESH_TOKEN_EXPIRES_DAYS
+        value: "7"
+      - key: SESSION_MAX_DAYS
+        value: "30"
+      # Proxy Vercel/Netlify + load balancer Render. Cek field clientIp di /api/health setelah deploy.
+      - key: TRUST_PROXY
+        value: "2"

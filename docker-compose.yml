@@ -1,0 +1,14 @@
+# Opsional: dipakai kalau belum install MongoDB di komputer.
+# Jalankan dengan: docker compose up -d
+services:
+  mongo:
+    image: mongo:7
+    container_name: toko-online-mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:

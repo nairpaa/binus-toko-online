@@ -1,0 +1,40 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://toko-online-api.onrender.com/api/:path*"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self' https://*.googletagmanager.com https://*.logrocket.com https://*.logrocket.io https://*.logr-in.com https://*.logr-ingest.com https://*.lr-in.com https://*.lr-in-prod.com https://*.lr-ingest.com https://*.lr-ingest.io https://*.lr-intake.com https://*.lgrckt-in.com https://*.ingest-lr.com; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://*.g.doubleclick.net https://*.google.com https://*.logrocket.com https://*.logrocket.io https://*.logr-in.com https://*.logr-ingest.com https://*.lr-in.com https://*.lr-in-prod.com https://*.lr-ingest.com https://*.lr-ingest.io https://*.lr-intake.com https://*.lgrckt-in.com https://*.ingest-lr.com; img-src 'self' data: blob: https:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; worker-src 'self' blob: data:; child-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=(), payment=()"
+        }
+      ]
+    }
+  ]
+}

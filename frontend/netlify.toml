@@ -1,0 +1,44 @@
+# Dipakai kalau frontend di-deploy ke Netlify (alternatif dari Vercel).
+# Set "Base directory" ke frontend di pengaturan site Netlify.
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# Request /api/* diteruskan ke backend di Render. Ganti URL-nya dengan URL service Render kamu.
+[[redirects]]
+  from = "/api/*"
+  to = "https://toko-online-api.onrender.com/api/:splat"
+  status = 200
+  force = true
+
+# Semua alamat lain diarahkan ke index.html, biar React Router yang menentukan halamannya.
+# Tanpa ini, refresh di /produk/123 akan menghasilkan 404.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Header keamanan untuk semua halaman. Isinya harus sama dengan bagian "headers" di vercel.json.
+# Penjelasan tiap header ada di docs/AUTENTIKASI.md (bagian Keamanan).
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=()"
+    Content-Security-Policy = """\
+    default-src 'self'; \
+    script-src 'self' https://*.googletagmanager.com https://*.logrocket.com https://*.logrocket.io https://*.logr-in.com https://*.logr-ingest.com https://*.lr-in.com https://*.lr-in-prod.com https://*.lr-ingest.com https://*.lr-ingest.io https://*.lr-intake.com https://*.lgrckt-in.com https://*.ingest-lr.com; \
+    connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://*.g.doubleclick.net https://*.google.com https://*.logrocket.com https://*.logrocket.io https://*.logr-in.com https://*.logr-ingest.com https://*.lr-in.com https://*.lr-in-prod.com https://*.lr-ingest.com https://*.lr-ingest.io https://*.lr-intake.com https://*.lgrckt-in.com https://*.ingest-lr.com; \
+    img-src 'self' data: blob: https:; \
+    style-src 'self' 'unsafe-inline'; \
+    font-src 'self' data:; \
+    worker-src 'self' blob: data:; \
+    child-src 'self' blob:; \
+    object-src 'none'; \
+    base-uri 'self'; \
+    form-action 'self'; \
+    frame-ancestors 'none'\
+    """
