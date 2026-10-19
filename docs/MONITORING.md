@@ -15,7 +15,7 @@ kosong, supaya kunjunganmu sendiri tidak mengotori data.
 
 ### Setup
 
-1. Buka <https://analytics.google.com> → **Admin** (ikon gerigi) → **Create → Property**.
+1. Buka <https://analytics.google.com> → **Admin** (ikon gerigi di kiri bawah) → **+ Create** → **Property**.
    Isi nama `TokoKita`, zona waktu **Indonesia**, mata uang **Rupiah (IDR)**.
 2. Pilih platform **Web**, lalu isi URL frontend dari Vercel/Netlify (misalnya `https://toko-online-abc.vercel.app`).
 3. Salin **Measurement ID** (`G-XXXXXXXXXX`).
@@ -33,7 +33,7 @@ kosong, supaya kunjunganmu sendiri tidak mengotori data.
 
 | Event | Kapan | Parameter | Kode |
 | --- | --- | --- | --- |
-| `page_view` | Setiap pindah halaman | `page_path`, `page_location` | `components/Layout.jsx` |
+| `page_view` | Setiap pindah halaman | `page_location`, `page_title` | Otomatis oleh GA4 (*enhanced measurement*) |
 | `sign_up` | Registrasi berhasil | `method: email` | `context/AuthContext.jsx` |
 | `login` | Login berhasil | `method: email` | `context/AuthContext.jsx` |
 | `logout` | Klik Keluar | - | `context/AuthContext.jsx` |
@@ -45,9 +45,11 @@ kosong, supaya kunjunganmu sendiri tidak mengotori data.
 masuk laporan bawaan. Contohnya, produk yang paling sering dilihat muncul di **Reports → Monetization → E-commerce purchases**
 (kolom *Items viewed*).
 
-Kenapa `page_view` dikirim manual? Aplikasi React tidak pernah benar-benar reload halaman (SPA). Kalau
-mengandalkan pengiriman otomatis GA, hanya halaman pertama yang tercatat. Karena itu `send_page_view`
-dimatikan dan `Layout.jsx` mengirim `page_view` setiap kali route React Router berubah.
+`page_view` tidak dikirim dari kode. Aplikasi React tidak pernah benar-benar reload halaman (SPA), tapi
+GA4 tetap bisa mencatatnya lewat fitur **enhanced measurement**, yaitu opsi *"Page changes based on browser
+history events"* yang aktif secara default di web stream. Fitur ini membaca setiap perpindahan halaman
+oleh React Router. Kalau `page_view` juga dikirim manual dari kode, setiap halaman akan tercatat dua kali
+(sudah dicek langsung di website production).
 
 ### Privasi
 

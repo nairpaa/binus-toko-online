@@ -22,9 +22,10 @@ function initGoogleAnalytics() {
     window.dataLayer.push(arguments);
   };
   window.gtag('js', new Date());
-  // page_view otomatis dimatikan. Di aplikasi React halaman tidak pernah reload,
-  // jadi page_view dikirim manual setiap kali route berubah (lihat trackPageView).
-  window.gtag('config', GA_ID, { send_page_view: false });
+  // page_view tidak perlu dikirim manual. GA4 sudah mencatat sendiri setiap kali React Router
+  // pindah halaman (fitur "enhanced measurement" yang aktif secara default). Kalau dikirim
+  // manual juga, setiap halaman akan tercatat dua kali.
+  window.gtag('config', GA_ID);
 
   const script = document.createElement('script');
   script.async = true;
@@ -58,20 +59,6 @@ function initLogRocket() {
 
 function withLogRocket(callback) {
   logRocketReady?.then((LogRocket) => LogRocket && callback(LogRocket));
-}
-
-let lastTrackedPath = null;
-
-export function trackPageView(path) {
-  // Jangan catat halaman yang sama dua kali berturut-turut. Ini terjadi di mode development
-  // karena React StrictMode sengaja menjalankan effect dua kali.
-  if (path === lastTrackedPath) return;
-  lastTrackedPath = path;
-
-  window.gtag?.('event', 'page_view', {
-    page_path: path,
-    page_location: window.location.href,
-  });
 }
 
 // Event yang namanya mengikuti "recommended events" GA4 (login, sign_up, search, view_item)
